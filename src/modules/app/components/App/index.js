@@ -1,12 +1,14 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Channels from "modules/logs/components/channels";
+import Channel from "modules/logs/components/channel";
 
 export function App() {
   return (
-    <div className="app">
+    <div className="container">
       <Switch>
         <Route exact path="/" component={Channels} />
+        <Route exact path="/channels/:name" component={Channel} />
         <Route component={NotFound} />
       </Switch>
     </div>

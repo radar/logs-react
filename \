@@ -1,0 +1,50 @@
+import React from 'react';
+import { compose } from 'react-apollo';
+import { messagesWithData } from './container';
+import Loading from 'loading';
+
+const Message = (message) => {
+  if (message.type === 'message') {
+    return <RegularMessage {...message} />
+  }
+
+  if (message.type === 'join') {
+    return <JoinMessage {...message} />
+  }
+
+  if (message.type === 'part') {
+    return <PartMessage {...message} />
+  }
+
+  return <RegularMessage {...message} />
+}
+
+const RegularMessage = (message) => {
+  return (
+    <div className='message'>{message.person.nick}: {message.text}</div>
+  )
+}
+
+const JoinMessage = (message) => {
+  return (
+    <div className='message join'>{message.person.nick} {message.text}</div>
+  )
+}
+
+const PartMessage = (message) => {
+  return (
+    <div className='message part'>{message.person.nick} {message.text}</div>
+  )
+}
+
+const Messages = ({data: {loading, error, messages}, match}) => {
+  if (loading) return <Loading />;
+
+  return (
+    <div className='messages'>
+      {messages.map(message => (<Message {...message} key={message.id}></Message>))}
+    </div>
+  )
+}
+
+export default compose(messagesWithData)(Messages);

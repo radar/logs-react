@@ -8,7 +8,8 @@ export function App() {
     <div className="container">
       <Switch>
         <Route exact path="/" component={Channels} />
-        <Route exact path="/channels/:name" component={Channel} />
+        <Route path="/channels/:name/:date" component={Channel} />
+        <Route path="/channels/:name" component={Channel} />
         <Route component={NotFound} />
       </Switch>
     </div>

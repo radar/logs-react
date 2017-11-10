@@ -9,8 +9,8 @@ const channel = gql`
 `;
 
 const messages = gql`
-  query messagesQuery($name: String!) {
-    messages(name: $name) {
+  query messagesQuery($name: String!, $date: String!) {
+    messages(name: $name, date: $date) {
       id
       text
       type
@@ -27,5 +27,5 @@ export const channelWithData = graphql(channel, {
 });
 
 export const messagesWithData = graphql(messages, {
-  options: ({match}) => ({ variables: { name: match.params.name } }),
+  options: ({name, date}) => ({ variables: { name: name, date: date } }),
 });

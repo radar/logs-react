@@ -1,7 +1,9 @@
 import React from 'react';
 import { compose } from 'react-apollo';
-import { messagesWithData } from './container';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
+
+import { messagesWithData } from './container';
 import Loading from 'loading';
 
 const Message = (message) => {
@@ -20,26 +22,45 @@ const Message = (message) => {
   return <RegularMessage {...message} />
 }
 
+const MessageTimestamp = ({id, createdAt}) => {
+  return <Link to={`#${id}`}>[{moment(createdAt).format("HH:mm:ss")}]</Link>
+}
+
+const PersonLink = ({nick}) => {
+  return <Link to={`/p/${nick}`}>{nick}</Link>
+}
+
 const RegularMessage = ({id, createdAt, person: { nick }, text}) => {
   return (
     <div className='message'>
-      <Link to={`#${id}`}>[{createdAt}]</Link> <Link to={`/p/${nick}`}>{nick}</Link>: {text}</div>
+      <MessageTimestamp id={id} createdAt={createdAt} />&nbsp;
+      <PersonLink nick={nick} />:&nbsp;
+      {text}
+    </div>
   )
 }
 
-const JoinMessage = (message) => {
+const JoinMessage = ({id, createdAt, person: { nick }, text}) => {
   return (
-    <div className='message join'>{message.person.nick} {message.text}</div>
+    <div className='message join'>
+      <MessageTimestamp id={id} createdAt={createdAt} />&nbsp;
+      <PersonLink nick={nick} />:&nbsp;
+      {text}
+    </div>
   )
 }
 
-const PartMessage = (message) => {
+const PartMessage = ({id, createdAt, person: { nick }, text}) => {
   return (
-    <div className='message part'>{message.person.nick} {message.text}</div>
+    <div className='message part'>
+      <MessageTimestamp id={id} createdAt={createdAt} />&nbsp;
+      <PersonLink nick={nick} />:&nbsp;
+      {text}
+    </div>
   )
 }
 
-const Messages = ({data: {loading, error, messages}, match, showJoinsParts}) => {
+const Messages = ({data: {loading, error, messages}, name, showJoinsParts}) => {
   if (loading) return <Loading />;
 
   if (!showJoinsParts) {

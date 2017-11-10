@@ -5,7 +5,7 @@ import { messagesWithData } from './container';
 import Messages from 'modules/logs/components/messages';
 import Loading from 'loading';
 
-const ChannelMessages = ({data: {loading, error, messages}, showJoinsParts}) => {
+const PersonMessages = ({data: {loading, error, personMessages: messages}, showJoinsParts, nick}) => {
   if (loading) return <Loading />;
 
   if (!showJoinsParts) {
@@ -13,8 +13,8 @@ const ChannelMessages = ({data: {loading, error, messages}, showJoinsParts}) => 
   }
 
   return (
-    <Messages messages={messages} />
+    <Messages messages={messages} nick={nick} />
   )
 }
 
-export default compose(messagesWithData)(ChannelMessages);
+export default compose(messagesWithData)(PersonMessages);

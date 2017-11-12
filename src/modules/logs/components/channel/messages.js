@@ -13,7 +13,7 @@ const ChannelMessages = ({data: {loading, error, messages}, showJoinsParts}) => 
   }
 
   return (
-    <Messages messages={messages} />
+    <Messages messages={messages} showJoinsParts={showJoinsParts} />
   )
 }
 

@@ -15,17 +15,31 @@ class Person extends React.Component {
   }
 
   render () {
-    const {data: {loading, person}} = this.props;
+    const {data: {loading}} = this.props;
 
     if (loading) return <Loading />;
 
+    const {
+      data: {
+        person: {
+          nick,
+          messages: { edges }
+        }
+      },
+    } = this.props;
+    const messages = edges.map(edge => (edge.node))
+
     return (
       <div>
-        <h2>{person.nick}</h2>
+        <h2>{nick}</h2>
 
         <Messages
-          nick={person.nick}
+          messages={messages}
+          nick={nick}
+          page={1}
           showJoinsParts={this.state.showJoinsParts} />
+
+        <a onClick={this.props.loadOlderMessages}>Load older messages...</a>
       </div>
     )
   }

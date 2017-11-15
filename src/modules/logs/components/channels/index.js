@@ -8,7 +8,7 @@ import moment from 'moment';
 class ChannelsItem extends Component {
   render() {
     return (
-      <li><Link to={`/channels/${this.props.name}/${this.props.date}`}>{this.props.name}</Link></li>
+      <li><Link to={`/channels/${this.props.name}/${this.props.date}`}>#{this.props.name}</Link></li>
     )
   }
 }

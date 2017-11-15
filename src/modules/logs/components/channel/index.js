@@ -3,8 +3,8 @@ import { compose } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
+import Messages from 'modules/logs/components/messages';
 import {channelWithData } from './container';
-import Messages from './messages';
 import Loading from 'loading';
 
 class Channel extends React.Component {
@@ -20,6 +20,8 @@ class Channel extends React.Component {
     const {data: {loading, channel}, match: { params: {date: paramDate}}} = this.props;
 
     if (loading) return <Loading />;
+
+    const messages = channel.messages;
 
     let date;
     if (paramDate) {
@@ -54,7 +56,7 @@ class Channel extends React.Component {
 
         <Messages
           name={channel.name}
-          date={formattedDate}
+          messages={messages}
           showJoinsParts={this.state.showJoinsParts} />
       </div>
     )

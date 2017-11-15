@@ -1,10 +1,11 @@
 import {gql, graphql} from "react-apollo";
 
 const personQuery = gql`
-  query personQuery($nick: String!, $cursor: String!) {
+  query personQuery($nick: String!, $cursor: String) {
     person(nick: $nick) {
       nick
       messages(first: 250, after: $cursor) {
+        __typename
         edges {
           cursor
           node {
@@ -45,6 +46,7 @@ export const personWithData = (graphql(personQuery, {
               fetchMoreResult.person.messages;
             const newPersonData = {...previousResult.person,
               messages: {
+                __typename: prevMessages.__typename,
                 edges: [
                   ...prevMessages.edges,
                   ...newMessages.edges,

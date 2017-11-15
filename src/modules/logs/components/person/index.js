@@ -1,5 +1,6 @@
 import React from 'react';
 import { compose } from 'react-apollo';
+import { Link } from 'react-router-dom';
 
 import Loading from 'loading';
 import { personWithData } from './container';
@@ -18,20 +19,25 @@ class Person extends React.Component {
     const {data: {loading}} = this.props;
 
     if (loading) return <Loading />;
+    console.log(this.props.data)
 
     const {
       data: {
         person: {
-          nick,
           messages: { edges }
         }
       },
+      match: {
+        params: { nick }
+      }
     } = this.props;
     const messages = edges.map(edge => (edge.node))
 
     return (
       <div>
         <h2>{nick}</h2>
+
+        <Link to={`/p/${nick}/activity`}>Activity Graph</Link>
 
         <Messages
           messages={messages}

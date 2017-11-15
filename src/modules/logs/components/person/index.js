@@ -15,11 +15,25 @@ class Person extends React.Component {
     this.setState({showJoinsParts: !this.state.showJoinsParts})
   }
 
+  renderLoadOlderMessages() {
+    const hasNextPage = this.props.data.person.messages.pageInfo.hasNextPage;
+
+    if (hasNextPage) {
+      return <a onClick={this.props.loadOlderMessages}>Load older messages...</a>
+    } else {
+      return (
+        <div>
+          <hr />
+          End of messages
+        </div>
+      )
+    }
+  }
+
   render () {
     const {data: {loading}} = this.props;
 
     if (loading) return <Loading />;
-    console.log(this.props.data)
 
     const {
       data: {
@@ -31,6 +45,7 @@ class Person extends React.Component {
         params: { nick }
       }
     } = this.props;
+
     const messages = edges.map(edge => (edge.node))
 
     return (
@@ -45,7 +60,7 @@ class Person extends React.Component {
           page={1}
           showJoinsParts={this.state.showJoinsParts} />
 
-        <a onClick={this.props.loadOlderMessages}>Load older messages...</a>
+        {this.renderLoadOlderMessages()}
       </div>
     )
   }
